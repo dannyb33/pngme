@@ -64,10 +64,10 @@ impl TryFrom<&[u8]> for Chunk {
 
 impl Display for Chunk {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "({}, {}, {}, {})",
-            u32::from_be_bytes(self.chunk_length), 
+        write!(f, "({}, {}, {:?}, {})",
+            u32::from_be_bytes(self.chunk_length),
             self.chunk_type,
-            str::from_utf8(&self.chunk_data).unwrap(),
+            self.chunk_data,
             u32::from_be_bytes(self.crc)
         )
     }

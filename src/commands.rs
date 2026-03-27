@@ -2,7 +2,7 @@ use std::fs;
 
 use clap::{Subcommand};
 
-use crate::{args::{DecodeArgs, EncodeArgs, PrintArgs, RemoveArgs}, png::Png};
+use crate::{args::{DecodeArgs, EncodeArgs, PrintArgs, RemoveArgs}, chunk::Chunk, png::Png};
 
 #[derive(Subcommand)]
 pub enum Commands {
@@ -13,9 +13,15 @@ pub enum Commands {
 }
 
 pub fn encode(args: &EncodeArgs) {
-    let new = Png::from_strings(&args.chunk_type, &args.message).unwrap();
+    let bytes = fs::read(&args.file_path).unwrap();
 
-    let _ = fs::write(&args.file_path, new.as_bytes());
+    let mut png = Png::try_from(bytes.as_ref()).unwrap();
+
+    let chunk = Chunk::chunk_from_strings(&args.chunk_type, &args.message).unwrap();
+
+    png.append_chunk(chunk);
+
+    let _ = fs::write(&args.file_path, png.as_bytes());
 }
 
 pub fn decode(args: &DecodeArgs) {

@@ -42,6 +42,7 @@ impl Display for Png {
     }
 }
 
+#[allow(dead_code)]
 impl Png {
     const STANDARD_HEADER: [u8; 8] = [137, 80, 78, 71, 13, 10, 26, 10];
 
@@ -61,7 +62,7 @@ impl Png {
         Ok(Png::from_chunks(vec![new_chunk?]))
     }
 
-    fn append_chunk(&mut self, chunk: Chunk) {
+    pub fn append_chunk(&mut self, chunk: Chunk) {
         self.chunks.push(chunk);
     }
     
