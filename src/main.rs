@@ -24,10 +24,10 @@ fn main() -> Result<()> {
     let cli = Cli::parse();
 
     match &cli.command {
-        Commands::Encode(args) => encode(args),
-        Commands::Decode(args) => decode(args),
-        Commands::Remove(args) => remove(args),
-        Commands::Print(args) => print(args)
+        Commands::Encode(args) => encode(args)?,
+        Commands::Decode(args) => decode(args)?,
+        Commands::Remove(args) => remove(args)?,
+        Commands::Print(args) => print(args)?
     }
     
     Ok(())
